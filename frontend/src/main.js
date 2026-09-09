@@ -57,8 +57,19 @@ window.addEventListener('keydown', (e) => {
     if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'o') {
         e.preventDefault();
         openFile();
+        return;
+    }
+    // Ctrl+Home / Ctrl+End: rolar para o topo / fim do documento
+    if (e.ctrlKey && e.key === 'Home') {
+        e.preventDefault();
+        contentEl.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    if (e.ctrlKey && e.key === 'End') {
+        e.preventDefault();
+        contentEl.scrollTo({ top: contentEl.scrollHeight, behavior: 'smooth' });
     }
 });
+
 
 // Permite abrir um arquivo passado via linha de comando (futuro: CLI args)
 console.info('Markdown Viewer pronto.');
