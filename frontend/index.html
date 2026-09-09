@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Markdown Viewer</title>
+</head>
+<body>
+<div id="app">
+    <div class="toolbar">
+        <button id="btn-open" title="Abrir arquivo (Ctrl+O)">📂 Abrir</button>
+        <span id="file-name" class="file-name">Nenhum arquivo aberto</span>
+    </div>
+    <main id="content" class="markdown-body">
+        <div class="empty-state">
+            <h1>Markdown Viewer</h1>
+            <p>Abra um arquivo <code>.md</code> para visualizar.</p>
+            <button id="btn-open-empty" class="big-btn">📂 Abrir arquivo</button>
+        </div>
+    </main>
+</div>
+<script src="./src/main.js" type="module"></script>
+</body>
+</html>
