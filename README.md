@@ -11,10 +11,12 @@ Abra qualquer arquivo `.md`, `.markdown` ou `.mdown` e visualize com renderizaç
 ## ✨ Funcionalidades
 
 - 📂 Abrir arquivos via diálogo nativo (botão **Abrir** ou `Ctrl+O`)
+- 🗂️ **Sidebar de arquivos recentes** (até 20 arquivos, persistidos em `~/.config/markdown-viewer/`) — toggle com `Ctrl+B`
 - 👁️ **Somente visualização** — sem edição
 - 📝 Renderização GFM completa: títulos, listas, tabelas, blockquotes, links
 - 🎨 Syntax highlight em blocos de código ([highlight.js](https://highlightjs.org/), tema GitHub)
 - 🖼️ Imagens relativas resolvidas em relação à pasta do arquivo aberto
+- 🖱️ Scroll aprimorado: scrollbar customizada e atalhos `Ctrl+Home`/`Ctrl+End`
 - 🪶 Binário único leve (~9 MB) com WebView nativo
 
 ## 🛠️ Tecnologias

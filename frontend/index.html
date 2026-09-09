@@ -8,16 +8,27 @@
 <body>
 <div id="app">
     <div class="toolbar">
+        <button id="btn-sidebar" title="Alternar barra lateral (Ctrl+B)">☰</button>
         <button id="btn-open" title="Abrir arquivo (Ctrl+O)">📂 Abrir</button>
         <span id="file-name" class="file-name">Nenhum arquivo aberto</span>
     </div>
-    <main id="content" class="markdown-body">
-        <div class="empty-state">
-            <h1>Markdown Viewer</h1>
-            <p>Abra um arquivo <code>.md</code> para visualizar.</p>
-            <button id="btn-open-empty" class="big-btn">📂 Abrir arquivo</button>
-        </div>
-    </main>
+    <div class="main-layout">
+        <aside id="sidebar" class="sidebar">
+            <div class="sidebar-header">
+                <span>Arquivos recentes</span>
+                <button id="btn-clear-recents" title="Limpar arquivos recentes">🗑</button>
+            </div>
+            <ul id="recents-list" class="recents-list"></ul>
+            <div id="recents-empty" class="recents-empty">Nenhum arquivo recente ainda.<br>Abra um arquivo <code>.md</code> para começar.</div>
+        </aside>
+        <main id="content" class="markdown-body">
+            <div class="empty-state">
+                <h1>Markdown Viewer</h1>
+                <p>Abra um arquivo <code>.md</code> para visualizar.</p>
+                <button id="btn-open-empty" class="big-btn">📂 Abrir arquivo</button>
+            </div>
+        </main>
+    </div>
 </div>
 <script src="./src/main.js" type="module"></script>
 </body>

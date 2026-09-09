@@ -18,6 +18,22 @@ export namespace main {
 	        this.baseDir = source["baseDir"];
 	    }
 	}
+	export class RecentItem {
+	    name: string;
+	    path: string;
+	    lastOpened: number;
+	
+	    static createFrom(source: any = {}) {
+	        return new RecentItem(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.name = source["name"];
+	        this.path = source["path"];
+	        this.lastOpened = source["lastOpened"];
+	    }
+	}
 
 }
 
