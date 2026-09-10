@@ -8,24 +8,33 @@
 <body>
 <div id="app">
     <div class="toolbar">
-        <button id="btn-sidebar" title="Alternar barra lateral (Ctrl+B)">☰</button>
-        <button id="btn-open" title="Abrir arquivo (Ctrl+O)">📂 Abrir</button>
+        <div class="toolbar-group">
+            <button id="btn-sidebar" class="tb-btn" title="Alternar barra lateral (Ctrl+B)">☰</button>
+            <button id="btn-open" class="tb-btn tb-btn-primary" title="Abrir arquivo (Ctrl+O)">📂 Abrir</button>
+        </div>
         <span id="file-name" class="file-name">Nenhum arquivo aberto</span>
+        <div class="toolbar-group">
+            <button id="btn-theme" class="tb-btn" title="Alternar tema claro/escuro (Ctrl+J)">🌙</button>
+        </div>
     </div>
+    <div id="progress-bar" class="progress-bar"><div id="progress-fill" class="progress-fill"></div></div>
     <div class="main-layout">
         <aside id="sidebar" class="sidebar">
             <div class="sidebar-header">
                 <span>Arquivos recentes</span>
                 <button id="btn-clear-recents" title="Limpar arquivos recentes">🗑</button>
             </div>
+            <input id="recents-filter" class="recents-filter" type="text" placeholder="🔎 Filtrar recentes..." autocomplete="off"/>
             <ul id="recents-list" class="recents-list"></ul>
             <div id="recents-empty" class="recents-empty">Nenhum arquivo recente ainda.<br>Abra um arquivo <code>.md</code> para começar.</div>
         </aside>
         <main id="content" class="markdown-body">
             <div class="empty-state">
+                <div class="empty-icon">📝</div>
                 <h1>Markdown Viewer</h1>
                 <p>Abra um arquivo <code>.md</code> para visualizar.</p>
                 <button id="btn-open-empty" class="big-btn">📂 Abrir arquivo</button>
+                <p class="empty-hint">Dica: use <kbd>Ctrl</kbd>+<kbd>O</kbd> para abrir e <kbd>Ctrl</kbd>+<kbd>B</kbd> para a barra lateral</p>
             </div>
         </main>
     </div>
