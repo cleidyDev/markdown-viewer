@@ -8,6 +8,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/fsnotify/fsnotify"
 	"github.com/wailsapp/wails/v2/pkg/runtime"
 )
 
@@ -29,10 +30,10 @@ type RecentItem struct {
 // maxRecents limits how many entries are kept in the recents list
 const maxRecents = 20
 
-
 // App struct
 type App struct {
-	ctx context.Context
+	ctx       context.Context
+	stopWatch chan struct{}
 }
 
 // NewApp creates a new App application struct
@@ -40,10 +41,87 @@ func NewApp() *App {
 	return &App{}
 }
 
-// startup is called when the app starts. The context is saved
-// so we can call the runtime methods
+// startup is called when the application starts
 func (a *App) startup(ctx context.Context) {
 	a.ctx = ctx
+	a.stopWatch = make(chan struct{})
+	a.openFromArgs()
+}
+
+// shutdown closes the file watcher when the app exits
+func (a *App) shutdown(_ context.Context) {
+	if a.stopWatch != nil {
+		close(a.stopWatch)
+	}
+}
+
+// openFromArgs opens a file passed on the command line, if any
+func (a *App) openFromArgs() {
+	if len(os.Args) < 2 {
+		return
+	}
+	path, err := filepath.Abs(os.Args[1])
+	if err != nil {
+		return
+	}
+	if _, err := os.Stat(path); err != nil {
+		return
+	}
+	go func() {
+		time.Sleep(500 * time.Millisecond) // aguarda o frontend carregar
+		runtime.EventsEmit(a.ctx, "open-path", path)
+	}()
+}
+
+// watchFile watches the file's directory and emits "file:changed" when the
+// file is modified on disk (debounced). Watching the directory handles
+// editors that replace the file atomically on save.
+func (a *App) watchFile(path string) {
+	if a.stopWatch != nil {
+		close(a.stopWatch)
+	}
+	stop := make(chan struct{})
+	a.stopWatch = stop
+
+	w, err := fsnotify.NewWatcher()
+	if err != nil {
+		return
+	}
+	dir := filepath.Dir(path)
+	base := filepath.Base(path)
+	if err := w.Add(dir); err != nil {
+		w.Close()
+		return
+	}
+	go func() {
+		defer w.Close()
+		var last time.Time
+		for {
+			select {
+			case <-stop:
+				return
+			case ev, ok := <-w.Events:
+				if !ok {
+					return
+				}
+				if filepath.Base(ev.Name) != base {
+					continue
+				}
+				if ev.Op&(fsnotify.Write|fsnotify.Create) == 0 {
+					continue
+				}
+				if time.Since(last) < 300*time.Millisecond {
+					continue
+				}
+				last = time.Now()
+				runtime.EventsEmit(a.ctx, "file:changed", path)
+			case _, ok := <-w.Errors:
+				if !ok {
+					return
+				}
+			}
+		}
+	}()
 }
 
 // OpenFile shows a native file dialog and returns the selected markdown file
@@ -80,6 +158,7 @@ func (a *App) readFile(path string) (*FileData, error) {
 		abs = path
 	}
 	a.recordRecent(abs)
+	a.watchFile(abs)
 	return &FileData{
 		Name:    filepath.Base(abs),
 		Path:    abs,
@@ -160,7 +239,6 @@ func (a *App) GetRecentFiles() []RecentItem {
 func (a *App) ClearRecentFiles() {
 	a.saveRecents([]RecentItem{})
 }
-
 
 // ResolveImagePath converts a relative image path to an absolute file:// URL
 func (a *App) ResolveImagePath(baseDir, relPath string) string {

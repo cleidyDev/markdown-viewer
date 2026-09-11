@@ -11,6 +11,7 @@
         <div class="toolbar-group">
             <button id="btn-sidebar" class="tb-btn" title="Alternar barra lateral (Ctrl+B)">☰</button>
             <button id="btn-open" class="tb-btn tb-btn-primary" title="Abrir arquivo (Ctrl+O)">📂 Abrir</button>
+            <button id="btn-search" class="tb-btn" title="Buscar no documento (Ctrl+F)">🔎</button>
         </div>
         <span id="file-name" class="file-name">Nenhum arquivo aberto</span>
         <div class="toolbar-group">
@@ -18,9 +19,18 @@
         </div>
     </div>
     <div id="progress-bar" class="progress-bar"><div id="progress-fill" class="progress-fill"></div></div>
+    <div id="search-bar" class="search-bar hidden">
+        <input id="search-input" class="search-input" type="text" placeholder="Buscar no documento..." autocomplete="off"/>
+        <span id="search-count" class="search-count"></span>
+        <button id="btn-search-prev" class="sb-btn" title="Anterior (Shift+Enter)">↑</button>
+        <button id="btn-search-next" class="sb-btn" title="Próximo (Enter)">↓</button>
+        <button id="btn-search-close" class="sb-btn" title="Fechar (Esc)">✕</button>
+    </div>
     <div class="main-layout">
         <aside id="sidebar" class="sidebar">
-            <div class="sidebar-header">
+            <div class="sidebar-header"><span>Índice</span></div>
+            <ul id="toc-list" class="toc-list"><li class="toc-empty">Abra um arquivo para ver o índice.</li></ul>
+            <div class="sidebar-header recents-header">
                 <span>Arquivos recentes</span>
                 <button id="btn-clear-recents" title="Limpar arquivos recentes">🗑</button>
             </div>
@@ -34,10 +44,11 @@
                 <h1>Markdown Viewer</h1>
                 <p>Abra um arquivo <code>.md</code> para visualizar.</p>
                 <button id="btn-open-empty" class="big-btn">📂 Abrir arquivo</button>
-                <p class="empty-hint">Dica: use <kbd>Ctrl</kbd>+<kbd>O</kbd> para abrir e <kbd>Ctrl</kbd>+<kbd>B</kbd> para a barra lateral</p>
+                <p class="empty-hint">Atalhos: <kbd>Ctrl</kbd>+<kbd>O</kbd> abrir · <kbd>Ctrl</kbd>+<kbd>F</kbd> buscar · <kbd>Ctrl</kbd>+<kbd>B</kbd> sidebar · <kbd>Ctrl</kbd>+<kbd>J</kbd> tema</p>
             </div>
         </main>
     </div>
+    <div id="toast-container" class="toast-container"></div>
 </div>
 <script src="./src/main.js" type="module"></script>
 </body>

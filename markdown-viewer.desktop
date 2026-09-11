@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=Markdown Viewer
+GenericName=Markdown Viewer
+Comment=Visualizador de arquivos Markdown somente leitura
+Exec=markdown-viewer %f
+Icon=markdown-viewer
+Terminal=false
+Categories=Office;Viewer;Utility;
+MimeType=text/markdown;text/x-markdown;
+Keywords=markdown;md;viewer;leitor;
